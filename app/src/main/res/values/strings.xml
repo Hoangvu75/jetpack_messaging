@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Kotlin Jetpack</string>
+    <string name="title_activity_chat">ChatActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_chat_list">ChatListActivity</string>
+    <string name="title_activity_contact_list">ContactListActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+</resources>
