@@ -1,5 +1,6 @@
 package com.example.kotlinjetpack.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.os.Build
@@ -22,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -33,6 +35,7 @@ import com.example.kotlinjetpack.ui.theme.greyTextColor
 import com.example.kotlinjetpack.ui.theme.primaryColor
 import com.example.kotlinjetpack.view_model.GetChatListViewModel
 
+@SuppressLint("SimpleDateFormat")
 @RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun ChatListScreen() {
@@ -177,16 +180,28 @@ fun ChatItem(
                         ),
                     )
                 }
-                Text(
-                    text = lastMessageContent,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        textAlign = TextAlign.Start,
-                        color = greyTextColor,
-                    ),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-
+                if (lastMessageContent.isEmpty()) {
+                    Text(
+                        text = "You and this person have no conversation yet",
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            textAlign = TextAlign.Start,
+                            color = greyTextColor,
+                            fontStyle = FontStyle.Italic
+                        ),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                } else {
+                    Text(
+                        text = lastMessageContent,
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            textAlign = TextAlign.Start,
+                            color = greyTextColor,
+                        ),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
         }
     }

@@ -24,7 +24,7 @@ class GetContactViewModel : ViewModel() {
         val quotesApi = ApiService.getInstance().create(RetrofitApi::class.java)
         GlobalScope.launch {
             val response = quotesApi.getContact(ACCESS_TOKEN)
-            if (response!!.isSuccessful) {
+            if (response.isSuccessful) {
                 getContactData = response.body()
                 resultLiveData.postValue(1)
             } else {

@@ -58,6 +58,24 @@ class RegisterViewModel : ViewModel() {
                         if (addProfileResponse.isSuccessful) {
                             addProfileData = addProfileResponse.body()
                             println(addProfileData)
+
+                            GlobalScope.launch {
+                                val loginBody = HashMap<String, String>()
+                                loginBody["phone"] = phone
+                                loginBody["password"] = password
+                                val loginResponse = quotesApi.login(loginBody)
+
+                                if (loginResponse.isSuccessful) {
+                                    val tempAccessToken = loginResponse.body()!!.token
+                                    quotesApi.createContact(tempAccessToken!!)
+                                    resultLiveData.postValue(1)
+                                } else {
+                                    val errorObject = JSONObject(loginResponse.errorBody()!!.string())
+                                    errorMessage = errorObject.getString("message")
+                                    resultLiveData.postValue(2)
+                                }
+                            }
+
                             resultLiveData.postValue(1)
                         } else {
                             val errorObject = JSONObject(addProfileResponse.errorBody()!!.string())

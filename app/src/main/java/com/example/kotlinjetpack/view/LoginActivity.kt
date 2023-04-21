@@ -79,8 +79,8 @@ fun LoginScreen() {
 
     var forgotPasswordText by remember { mutableStateOf("Forgot password?") }
 
-    var phone by remember { mutableStateOf("0000000001") }
-    var password by remember { mutableStateOf("0000000001") }
+    var phone by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     val openDialog = rememberSaveable { mutableStateOf(false) }

@@ -18,6 +18,9 @@ interface RetrofitApi {
     @GET("/contact/get-contact")
     suspend fun getContact(@Header("Authorization") authHeader: String): Response<GetContactResponse>
 
+    @POST("/contact/create-contact")
+    suspend fun createContact(@Header("Authorization") authHeader: String): Response<Void>
+
     @POST("/contact/add-contact-item/{phone}")
     suspend fun addContact(
         @Header("Authorization") authHeader: String,

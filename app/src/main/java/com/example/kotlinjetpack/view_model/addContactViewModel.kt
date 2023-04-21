@@ -9,7 +9,6 @@ import com.example.kotlinjetpack.const.ACCESS_TOKEN
 import com.example.kotlinjetpack.const.NAME
 import com.example.kotlinjetpack.const.PHONE
 import com.example.kotlinjetpack.model.AddContactResponse
-import com.example.kotlinjetpack.model.User
 import com.example.kotlinjetpack.retrofit.ApiService
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope

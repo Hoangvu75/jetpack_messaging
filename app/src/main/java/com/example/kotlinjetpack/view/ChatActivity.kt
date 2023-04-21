@@ -19,11 +19,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.kotlinjetpack.const.BASE_URL
 import com.example.kotlinjetpack.const.PHONE
 import com.example.kotlinjetpack.model.Chat
 import com.example.kotlinjetpack.model.User
@@ -47,8 +49,9 @@ class ChatActivity : ComponentActivity() {
         val chatId = intent.getStringExtra("chatId")
         val phone = intent.getStringExtra("phone")
         try {
-            mSocket = IO.socket("http://172.10.1.197:3000")
+            mSocket = IO.socket(BASE_URL)
             mSocket!!.connect()
+
             mSocket!!.on("chat response") { args ->
                 val data = args[0] as JSONObject
                 if (data.getString("receiver") == PHONE) {
@@ -74,11 +77,15 @@ class ChatActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(chatId: String, socket: Socket, chatList: MutableList<Chat>) {
+    println("socket: ${socket.connected()}")
+
     val lifecycleOwner = LocalLifecycleOwner.current
     var message by remember { mutableStateOf("") }
 
     var phone by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("") }
+
+    val focusManager = LocalFocusManager.current
 
     var user1 by remember {
         mutableStateOf(
@@ -196,10 +203,11 @@ fun ChatScreen(chatId: String, socket: Socket, chatList: MutableList<Chat>) {
                         ),
                         shape = RoundedCornerShape(20.dp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                    )
+                        )
 
                     IconButton(
                         onClick = {
+                            focusManager.clearFocus()
                             val addChatViewModel = AddChatViewModel()
                             val addChatRequestBody = AddChatRequestBody(
                                 user_1 = user1,
