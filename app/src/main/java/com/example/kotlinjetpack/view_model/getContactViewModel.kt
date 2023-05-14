@@ -1,9 +1,12 @@
 package com.example.kotlinjetpack.view_model
 
 import RetrofitApi
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.kotlinjetpack.const.ACCESS_TOKEN
+import com.example.kotlinjetpack.model.ChatItem
+import com.example.kotlinjetpack.model.ContactItem
 import com.example.kotlinjetpack.model.GetContactResponse
 import com.example.kotlinjetpack.retrofit.ApiService
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -12,9 +15,10 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class GetContactViewModel : ViewModel() {
+    val contactList = mutableStateListOf<ContactItem>()
     var resultLiveData = MutableLiveData<Int>()
 
-    var getContactData: GetContactResponse? = null
+    private var getContactData: GetContactResponse? = null
     var errorMessage: String? = null
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -26,6 +30,9 @@ class GetContactViewModel : ViewModel() {
             val response = quotesApi.getContact(ACCESS_TOKEN)
             if (response.isSuccessful) {
                 getContactData = response.body()
+                getContactData?.contact?.contactList?.let {
+                    contactList.addAll(it)
+                }
                 resultLiveData.postValue(1)
             } else {
                 val errorObject = JSONObject(response.errorBody()!!.string())
@@ -33,5 +40,9 @@ class GetContactViewModel : ViewModel() {
                 resultLiveData.postValue(2)
             }
         }
+    }
+
+    fun clearContact() {
+        contactList.clear()
     }
 }

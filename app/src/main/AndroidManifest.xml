@@ -25,7 +25,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.BottomNavigationBarActivity"
+            android:name=".view.bottom_navbar.BottomNavigationBarActivity"
             android:exported="false"
             android:label="@string/title_activity_settings"
             android:theme="@style/Theme.KotlinJetpack">
@@ -43,7 +43,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.LoginActivity"
+            android:name=".view.auth.LoginAndRegisterActivity"
             android:exported="false"
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.KotlinJetpack">
