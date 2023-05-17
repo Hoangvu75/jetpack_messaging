@@ -5,15 +5,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -23,6 +26,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -40,6 +44,7 @@ import com.example.kotlinjetpack.const.PHONE
 import com.example.kotlinjetpack.function.AppSettings
 import com.example.kotlinjetpack.model.Chat
 import com.example.kotlinjetpack.model.User
+import com.example.kotlinjetpack.ui.theme.defaultTextColor
 import com.example.kotlinjetpack.ui.theme.greyTextColor
 import com.example.kotlinjetpack.ui.theme.primaryColor
 import com.example.kotlinjetpack.ui.theme.softPink
@@ -182,22 +187,42 @@ fun ChatScreen(chatId: String, socket: Socket, chatList: MutableList<Chat>) {
     )
 
     Scaffold { padding ->
-        Box(modifier = Modifier.padding(padding)) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.linearGradient(
-                            colors = listOf(
-                                Color(topR, topG, topB, topA),
-                                Color(botR, botG, botB, botA),
-                            ),
-                            start = Offset.Zero,
-                            end = Offset.Infinite
+        Column(
+            modifier = Modifier
+                .padding(padding)
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            Color(topR, topG, topB, topA),
+                            Color(botR, botG, botB, botA),
                         ),
+                        start = Offset.Zero,
+                        end = Offset.Infinite
                     ),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                )
+        ) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
             ) {
+                val listState = rememberScrollState()
+
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(listState)
+                ) {
+                    for (i in 0 until chatList.size) {
+                        ChatElement(
+                            sender = chatList[i].sender!!,
+                            content = chatList[i].content!!,
+                        )
+                    }
+
+                    LaunchedEffect(chatList.size) {
+                        listState.scrollTo(Int.MAX_VALUE)
+                    }
+                }
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start,
@@ -244,7 +269,7 @@ fun ChatScreen(chatId: String, socket: Socket, chatList: MutableList<Chat>) {
                         horizontalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = if(name.isEmpty()) "" else name[0].uppercase(),
+                            text = if (name.isEmpty()) "" else name[0].uppercase(),
                             style = TextStyle(
                                 fontSize = 28.sp,
                                 fontWeight = FontWeight.Bold
@@ -276,81 +301,67 @@ fun ChatScreen(chatId: String, socket: Socket, chatList: MutableList<Chat>) {
                     }
 
                 }
+            }
 
-                val listState = rememberLazyListState()
-                LazyColumn(
-                    modifier = Modifier.weight(1f),
-                    state = listState
-                ) {
-                    items(chatList.size) { index ->
-                        ChatElement(
-                            sender = chatList[index].sender!!,
-                            content = chatList[index].content!!,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                OutlinedTextField(
+                    value = message,
+                    onValueChange = { message = it },
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(5.dp),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = primaryColor,
+                        focusedLabelColor = primaryColor,
+                        focusedLeadingIconColor = primaryColor,
+                        focusedSupportingTextColor = primaryColor,
+                        focusedTrailingIconColor = primaryColor,
+                        cursorColor = primaryColor
+                    ),
+                    shape = RoundedCornerShape(20.dp),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    textStyle = MaterialTheme.typography.bodyLarge.copy(
+                        color = defaultTextColor()
+                    )
+                )
+
+                IconButton(
+                    onClick = {
+                        focusManager.clearFocus()
+                        val addChatViewModel = AddChatViewModel()
+                        val addChatRequestBody = AddChatRequestBody(
+                            user_1 = user1,
+                            user_2 = user2,
+                            sender = PHONE,
+                            content = message
                         )
-                    }
-
-                    CoroutineScope(Dispatchers.Main).launch {
-                        listState.scrollToItem(chatList.size)
-                    }
-                }
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    OutlinedTextField(
-                        value = message,
-                        onValueChange = { message = it },
-                        modifier = Modifier
-                            .fillMaxWidth(0.8f)
-                            .padding(5.dp),
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            focusedBorderColor = primaryColor,
-                            focusedLabelColor = primaryColor,
-                            focusedLeadingIconColor = primaryColor,
-                            focusedSupportingTextColor = primaryColor,
-                            focusedTrailingIconColor = primaryColor,
-                            cursorColor = primaryColor
-                        ),
-                        shape = RoundedCornerShape(20.dp),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                        )
-
-                    IconButton(
-                        onClick = {
-                            focusManager.clearFocus()
-                            val addChatViewModel = AddChatViewModel()
-                            val addChatRequestBody = AddChatRequestBody(
-                                user_1 = user1,
-                                user_2 = user2,
+                        chatList.add(
+                            Chat(
                                 sender = PHONE,
-                                content = message
+                                content = message,
+                                time = System.currentTimeMillis(),
+                                _id = null,
                             )
-                            chatList.add(
-                                Chat(
-                                    sender = PHONE,
-                                    content = message,
-                                    time = System.currentTimeMillis(),
-                                    _id = null,
-                                )
-                            )
-                            socket.emit("chat request", JSONObject().apply {
-                                put("message", message)
-                                put("receiver", phone)
-                                println("request")
-                            })
-                            addChatViewModel.addChat(addChatRequestBody)
-                            message = ""
-                        }
-                    ) {
-                        Icon(
-                            Icons.Filled.Send,
-                            modifier = Modifier.size(50.dp),
-                            contentDescription = null,
-                            tint = primaryColor
                         )
+                        socket.emit("chat request", JSONObject().apply {
+                            put("message", message)
+                            put("receiver", phone)
+                            println("request")
+                        })
+                        addChatViewModel.addChat(addChatRequestBody)
+                        message = ""
                     }
+                ) {
+                    Icon(
+                        Icons.Filled.Send,
+                        modifier = Modifier.size(50.dp),
+                        contentDescription = null,
+                        tint = primaryColor
+                    )
                 }
-
             }
         }
     }
@@ -361,6 +372,14 @@ fun ChatElement(
     sender: String,
     content: String
 ) {
+    var state by remember { mutableStateOf(false) }
+    val duration = 1000
+
+    val scale: Float by animateFloatAsState(
+        targetValue = if (state) 1f else 0f,
+        animationSpec = tween(durationMillis = duration),
+    )
+
     if (sender == PHONE) {
         Row {
             Spacer(modifier = Modifier.weight(1f))
@@ -368,7 +387,9 @@ fun ChatElement(
             Surface(
                 shape = MaterialTheme.shapes.medium,
                 color = primaryColor,
-                modifier = Modifier.padding(top = 5.dp, start = 100.dp, end = 10.dp, bottom = 5.dp)
+                modifier = Modifier
+                    .padding(top = 5.dp, start = 100.dp, end = 10.dp, bottom = 5.dp)
+                    .scale(scale)
             ) {
                 Text(
                     text = content,
@@ -376,13 +397,19 @@ fun ChatElement(
                     style = MaterialTheme.typography.bodyLarge.copy(Color.White)
                 )
             }
+        }.let { animation ->
+            LaunchedEffect(animation) {
+                state = true
+            }
         }
     } else {
         Row {
             Surface(
                 shape = MaterialTheme.shapes.medium,
                 color = greyTextColor,
-                modifier = Modifier.padding(top = 5.dp, start = 10.dp, end = 100.dp, bottom = 5.dp)
+                modifier = Modifier
+                    .padding(top = 5.dp, start = 10.dp, end = 100.dp, bottom = 5.dp)
+                    .scale(scale)
             ) {
                 Text(
                     text = content,
@@ -392,6 +419,10 @@ fun ChatElement(
             }
 
             Spacer(modifier = Modifier.weight(1f))
+        }.let { animation ->
+            LaunchedEffect(animation) {
+                state = true
+            }
         }
     }
 }
