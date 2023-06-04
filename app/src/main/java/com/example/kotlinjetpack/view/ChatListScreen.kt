@@ -174,12 +174,10 @@ fun ChatListScreen(
                     .fillMaxWidth()
                     .height(175.dp)
                     .pin(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.End
             ) {
 
                 if (toolbarState.toolbarState.progress == 1f) {
-                    ScreenModeButton()
-
                     DateTimeText()
                 }
             }
@@ -309,6 +307,14 @@ fun ChatItem(
         friendPhone = phoneList[0]
     }
 
+    val color = Color(
+        Random().nextInt(256),
+        Random().nextInt(256),
+        Random().nextInt(256),
+    ).copy(
+        alpha = 1f
+    )
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -336,13 +342,7 @@ fun ChatItem(
             Row(
                 modifier = Modifier
                     .background(
-                        color = Color(
-                            Random().nextInt(256),
-                            Random().nextInt(256),
-                            Random().nextInt(256),
-                        ).copy(
-                            alpha = 1f
-                        ),
+                        color = color,
                         shape = CircleShape
                     )
                     .size(60.dp),
@@ -498,93 +498,3 @@ fun DateTimeText() {
     }
 }
 
-@Composable
-fun ScreenModeButton() {
-    var buttonState by remember { mutableStateOf(ButtonState.Idle) }
-    val scale by animateFloatAsState(
-        if (buttonState == ButtonState.Pressed) 0.8f else 1f,
-        tween(durationMillis = 150, easing = FastOutSlowInEasing)
-    )
-
-    var visible by remember { mutableStateOf(false) }
-    val duration = 1000
-    val delay = 300
-    val density = LocalDensity.current
-
-    AnimatedVisibility(
-        visible = visible,
-        enter = slideInHorizontally(
-            animationSpec = tween(durationMillis = duration, delayMillis = delay),
-        ) {
-            with(density) { -150.dp.roundToPx() }
-        } + fadeIn(
-            animationSpec = tween(durationMillis = duration, delayMillis = delay),
-            initialAlpha = 0f
-        )
-    ) {
-        Row(
-            modifier = Modifier
-                .scale(scale)
-                .padding(all = 20.dp)
-                .background(
-                    color = Color.White.copy(alpha = 0.2f),
-                    shape = RoundedCornerShape(20.dp)
-                )
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null
-                ) {
-                    isDarkMode = !isDarkMode
-                }
-                .padding(all = 10.dp)
-                .pointerInput(buttonState) {
-                    awaitPointerEventScope {
-                        buttonState = if (buttonState == ButtonState.Pressed) {
-                            waitForUpOrCancellation()
-                            ButtonState.Idle
-                        } else {
-                            awaitFirstDown(false)
-                            ButtonState.Pressed
-                        }
-                    }
-                },
-        ) {
-            val rotationAngle by animateFloatAsState(
-                targetValue = if (buttonState == ButtonState.Pressed) 720f else 0f,
-                animationSpec = tween(durationMillis = 720, easing = LinearOutSlowInEasing),
-            )
-
-            val scaleText by animateFloatAsState(
-                targetValue = if (buttonState == ButtonState.Pressed) 0f else 1f,
-                animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
-            )
-
-            Icon(
-                painterResource(
-                    id = if (isDarkMode) R.drawable.ic_baseline_light_mode_24 else R.drawable.ic_baseline_dark_mode_24
-                ),
-                contentDescription = "mode",
-                tint = Color.White,
-                modifier = Modifier.graphicsLayer {
-                    rotationZ = rotationAngle
-                }
-            )
-            Spacer(modifier = Modifier.width(10.dp))
-            Text(
-                text = if (isDarkMode) "Light" else "Dark",
-                color = Color.White,
-                fontSize = 20.sp,
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold
-                ),
-                modifier = Modifier.scale(scaleText)
-            )
-        }
-    }.let { animation ->
-        LaunchedEffect(animation) {
-            visible = true
-        }
-    }
-
-
-}

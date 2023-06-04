@@ -19,6 +19,11 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+// custom những thứ cần thiết để
+
+
+// đây là shadow (bóng) của những vật thể được hiển thị trên màn hình, một số vật thể sẽ có bóng
+// mờ đằng sau, custom dễ sử dụng hơn
 fun Modifier.shadow(
     color: Color = Color.Black,
     borderRadius: Dp = 0.dp,
@@ -57,4 +62,5 @@ fun Modifier.shadow(
     }
 )
 
+// đây là trạng thái của các button, press là trạng thái đang được nhấn, idle là thả ra.
 enum class ButtonState { Pressed, Idle }

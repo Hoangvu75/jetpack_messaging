@@ -23,6 +23,11 @@ import com.example.kotlinjetpack.model.ContactItem
 import com.example.kotlinjetpack.ui.theme.primaryColor
 import com.example.kotlinjetpack.view_model.AddContactViewModel
 
+// đây là dialog sẽ hiện lên khi người dùng sử dụng tính năng thêm liện hệ mới, 1 dialog sẽ hiện
+// ra và cho người dùng nhập số điện thoại, số điện thoại được nhập nếu có tồn tại trong database
+// sẽ được thêm vao danh sách liên hệ.
+
+// đây là hàm để mở dialog, khi openDialog = true thì dialog sẽ xuất hiện
 @Composable
 fun AddContactDialog(
     openDialog: MutableState<Boolean>,
@@ -36,6 +41,7 @@ fun AddContactDialog(
     }
 }
 
+// đây là UI (giao diện) của dialog
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddContactDialogUI(
@@ -94,6 +100,11 @@ fun AddContactDialogUI(
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 TextButton(
+
+                    // khi người dùng nhập xong số điện thoại và bấm xác nhận, dialog sẽ đóng lại
+                    // . sau đó sẽ gọi ViewModel thực hiện việc thêm số điện thoại vào danh sách
+                    // liên hệ.
+
                     onClick = {
                         openDialog.value = false
                         val addContactViewModel = AddContactViewModel()

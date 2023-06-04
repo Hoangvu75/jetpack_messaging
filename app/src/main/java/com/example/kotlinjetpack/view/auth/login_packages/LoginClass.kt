@@ -42,8 +42,10 @@ import com.example.kotlinjetpack.view.bottom_navbar.BottomNavigationBarActivity
 import com.example.kotlinjetpack.view_model.LoginViewModel
 import kotlinx.coroutines.delay
 
+// login class là nơi chứa các giao diện cần thiết của màn hình đăng nhập
 class LoginClass {
 
+    // chữ Login tiêu đề
     @Composable
     fun LoginText() {
         var visible by remember { mutableStateOf(false) }
@@ -77,6 +79,7 @@ class LoginClass {
         }
     }
 
+    // ô điền số điện thoại
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun PhoneTextField(
@@ -130,6 +133,7 @@ class LoginClass {
 
     }
 
+    // ô nhập mật khẩu
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun PasswordTextField(
@@ -195,6 +199,7 @@ class LoginClass {
         }
     }
 
+    // phần chữ quên mật khẩu
     @Composable
     fun ForgotPasswordText() {
         var forgotPasswordText by remember { mutableStateOf("Forgot password?") }
@@ -238,6 +243,7 @@ class LoginClass {
         }
     }
 
+    // nút đăng nhập
     @Composable
     fun LoginButton(
         phone: String,
@@ -317,6 +323,7 @@ class LoginClass {
         }
     }
 
+    // phần chữ ở trên nút đăng ký
     @Composable
     fun SubtitleRegister() {
         var subtitle by remember { mutableStateOf("") }
@@ -338,6 +345,7 @@ class LoginClass {
         }
     }
 
+    // nút di chuyển tới ô đăng ký
     @Composable
     fun RegisterButton(
         onRegisterClicked: () -> Unit

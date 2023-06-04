@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.example.kotlinjetpack.view_model.GetChatListViewModel
 import com.example.kotlinjetpack.view_model.GetContactViewModel
 
+// đây là nơi lưu các biến toàn cục của app
 object AppSettings {
     var isDarkMode by mutableStateOf(false)
     var getChatListViewModel: GetChatListViewModel = GetChatListViewModel()

@@ -17,6 +17,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.kotlinjetpack.ui.theme.primaryColor
 
+// đây là dialog tự custom giao diện
+
+// hàm này gọi dialog, dialog sẽ hiển thị khi openDialogCustom = true
 @Composable
 fun CustomDialog(
     openDialogCustom: MutableState<Boolean>,
@@ -32,6 +35,7 @@ fun CustomDialog(
     }
 }
 
+// đây là giao diện của dialog
 @Composable
 fun CustomDialogUI(
     modifier: Modifier = Modifier,
