@@ -27,6 +27,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 
 @Composable
@@ -65,7 +66,7 @@ fun RowScope.MyCustomBottomNavigationItem(
         @Composable {
             val style = TextStyle(
                 textAlign = TextAlign.Center,
-                fontSize = 17.sp
+                fontSize = 4.em
             )
             ProvideTextStyle(style, content = label)
         }

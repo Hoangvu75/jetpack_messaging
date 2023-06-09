@@ -20,8 +20,8 @@ fun LoginForm(
     activity: Activity,
     onRegisterClicked: () -> Unit
 ) {
-    var phone by remember { mutableStateOf("0941290612") }
-    var password by remember { mutableStateOf("0941290612") }
+    var phone by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier

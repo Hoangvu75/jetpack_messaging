@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -34,6 +35,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.lifecycle.LifecycleOwner
 import com.example.kotlinjetpack.function.CustomDialog
 import com.example.kotlinjetpack.ui.theme.greyTextColor
@@ -57,7 +59,7 @@ class LoginClass {
             enter = slideInVertically(
                 animationSpec = tween(durationMillis = duration, delayMillis = delay),
             ) {
-                with(density) { - 200.dp.roundToPx() }
+                with(density) { -200.dp.roundToPx() }
             } + expandVertically(
                 animationSpec = tween(durationMillis = duration, delayMillis = delay),
                 expandFrom = Alignment.Top
@@ -69,7 +71,9 @@ class LoginClass {
             Text(
                 text = "Login",
                 color = primaryColor,
-                style = MaterialTheme.typography.displayMedium,
+                style = MaterialTheme.typography.displayMedium.copy(
+                    fontSize = 10.em
+                ),
                 fontWeight = FontWeight.Bold
             )
         }.let { animation ->
@@ -108,7 +112,12 @@ class LoginClass {
                 value = phone,
                 onValueChange = { onPhoneChange(it) },
                 label = {
-                    Text(text = "Phone")
+                    Text(
+                        text = "Phone",
+                        style = TextStyle(
+                            fontSize = 4.em
+                        )
+                    )
                 },
                 leadingIcon = {
                     Icon(Icons.Filled.Phone, contentDescription = null)
@@ -151,7 +160,7 @@ class LoginClass {
             enter = slideInHorizontally(
                 animationSpec = tween(durationMillis = duration, delayMillis = delay),
             ) {
-                with(density) { - 200.dp.roundToPx() }
+                with(density) { -200.dp.roundToPx() }
             } + expandVertically(
                 animationSpec = tween(durationMillis = duration, delayMillis = delay),
                 expandFrom = Alignment.Top
@@ -164,7 +173,12 @@ class LoginClass {
                 value = password,
                 onValueChange = { onPasswordChange(it) },
                 label = {
-                    Text(text = "Password")
+                    Text(
+                        text = "Password",
+                        style = TextStyle(
+                            fontSize = 4.em
+                        )
+                    )
                 },
                 leadingIcon = {
                     Icon(Icons.Filled.Password, contentDescription = null)
@@ -228,7 +242,8 @@ class LoginClass {
                 },
                 text = AnnotatedString(forgotPasswordText),
                 style = MaterialTheme.typography.bodyLarge.copy(
-                    fontStyle = FontStyle(1),
+                    fontStyle = FontStyle.Italic,
+                    fontSize = 4.em,
                     textAlign = TextAlign.End,
                     color = primaryColor,
                 ),
@@ -286,6 +301,7 @@ class LoginClass {
                             0 -> {
                                 println("Loading")
                             }
+
                             1 -> {
                                 println("Success, token: ${loginViewModel.loginData!!.token}")
                                 context.startActivity(
@@ -296,6 +312,7 @@ class LoginClass {
                                 )
                                 activity.finish()
                             }
+
                             2 -> {
                                 println("Error: ${loginViewModel.errorMessage}")
                                 dialogTitle = "Login Error"
@@ -313,7 +330,9 @@ class LoginClass {
                 Text(
                     text = buttonText,
                     color = Color(0xFFFFFFFF),
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontSize = 6.em
+                    )
                 )
             }.let { animation ->
                 LaunchedEffect(animation) {
@@ -333,7 +352,9 @@ class LoginClass {
         Text(
             text = subtitle,
             color = greyTextColor,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge.copy(
+                fontSize = 4.em
+            )
         ).let { animation ->
             LaunchedEffect(animation) {
                 delay(delay.toLong())
@@ -380,7 +401,9 @@ class LoginClass {
                 Text(
                     text = buttonText,
                     color = primaryColor,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontSize = 6.em
+                    )
                 )
             }.let { animation ->
                 LaunchedEffect(animation) {

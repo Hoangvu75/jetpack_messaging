@@ -23,11 +23,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.lifecycle.LifecycleOwner
 import com.example.kotlinjetpack.function.CustomDialog
 import com.example.kotlinjetpack.ui.theme.greyTextColor
@@ -49,7 +51,7 @@ class RegisterClass {
             enter = slideInVertically(
                 animationSpec = tween(durationMillis = duration, delayMillis = delay),
             ) {
-                with(density) { - 200.dp.roundToPx() }
+                with(density) { -200.dp.roundToPx() }
             } + expandVertically(
                 animationSpec = tween(durationMillis = duration, delayMillis = delay),
                 expandFrom = Alignment.Top
@@ -61,7 +63,9 @@ class RegisterClass {
             Text(
                 text = "Register",
                 color = primaryColor,
-                style = MaterialTheme.typography.displayMedium,
+                style = MaterialTheme.typography.displayMedium.copy(
+                    fontSize = 10.em
+                ),
                 fontWeight = FontWeight.Bold
             )
         }.let { animation ->
@@ -99,7 +103,12 @@ class RegisterClass {
                 value = phone,
                 onValueChange = { onPhoneChange(it) },
                 label = {
-                    Text(text = "Phone")
+                    Text(
+                        text = "Phone",
+                        style = TextStyle(
+                            fontSize = 4.em
+                        )
+                    )
                 },
                 leadingIcon = {
                     Icon(Icons.Filled.Phone, contentDescription = null)
@@ -140,7 +149,7 @@ class RegisterClass {
             enter = slideInHorizontally(
                 animationSpec = tween(durationMillis = duration, delayMillis = delay),
             ) {
-                with(density) { - 200.dp.roundToPx() }
+                with(density) { -200.dp.roundToPx() }
             } + expandVertically(
                 animationSpec = tween(durationMillis = duration, delayMillis = delay),
                 expandFrom = Alignment.Top
@@ -153,7 +162,12 @@ class RegisterClass {
                 value = password,
                 onValueChange = { onPasswordChange(it) },
                 label = {
-                    Text(text = "Password")
+                    Text(
+                        text = "Password",
+                        style = TextStyle(
+                            fontSize = 4.em
+                        )
+                    )
                 },
                 leadingIcon = {
                     Icon(Icons.Filled.Password, contentDescription = null)
@@ -218,7 +232,12 @@ class RegisterClass {
                 value = reEnterPassword,
                 onValueChange = { onReEnterPasswordChange(it) },
                 label = {
-                    Text(text = "Re-enter password")
+                    Text(
+                        text = "Re-enter password",
+                        style = TextStyle(
+                            fontSize = 4.em
+                        )
+                    )
                 },
                 leadingIcon = {
                     Icon(Icons.Filled.Password, contentDescription = null)
@@ -268,7 +287,7 @@ class RegisterClass {
             enter = slideInHorizontally(
                 animationSpec = tween(durationMillis = duration, delayMillis = delay),
             ) {
-                with(density) { - 200.dp.roundToPx() }
+                with(density) { -200.dp.roundToPx() }
             } + expandVertically(
                 animationSpec = tween(durationMillis = duration, delayMillis = delay),
                 expandFrom = Alignment.Top
@@ -281,7 +300,12 @@ class RegisterClass {
                 value = name,
                 onValueChange = { onNameChange(it) },
                 label = {
-                    Text(text = "Name")
+                    Text(
+                        text = "Name",
+                        style = TextStyle(
+                            fontSize = 4.em
+                        )
+                    )
                 },
                 leadingIcon = {
                     Icon(Icons.Filled.AccountCircle, contentDescription = null)
@@ -352,7 +376,12 @@ class RegisterClass {
                 value = dateOfBirth,
                 onValueChange = { onDateChange(it) },
                 label = {
-                    Text(text = "Date of birth")
+                    Text(
+                        text = "Date of birth",
+                        style = TextStyle(
+                            fontSize = 4.em
+                        )
+                    )
                 },
                 leadingIcon = {
                     Icon(Icons.Filled.EditCalendar, contentDescription = null)
@@ -391,7 +420,12 @@ class RegisterClass {
         var alertDialogTitle by remember { mutableStateOf("") }
         var alertDialogContent by remember { mutableStateOf("") }
         if (openAlertDialog.value) {
-            CustomDialog(openDialogCustom = openAlertDialog, alertDialogTitle, alertDialogContent, alertDialogFunction)
+            CustomDialog(
+                openDialogCustom = openAlertDialog,
+                alertDialogTitle,
+                alertDialogContent,
+                alertDialogFunction
+            )
         }
 
         var buttonText by remember { mutableStateOf("") }
@@ -420,6 +454,7 @@ class RegisterClass {
                             0 -> {
                                 println("Loading")
                             }
+
                             1 -> {
                                 println("Success, account: ${registerViewModel.registerData!!.registeredAccount}")
                                 println("Success, profile: ${registerViewModel.addProfileData!!.addedProfile}")
@@ -428,6 +463,7 @@ class RegisterClass {
                                 alertDialogFunction()
                                 openAlertDialog.value = true
                             }
+
                             2 -> {
                                 println("Error: ${registerViewModel.errorMessage}")
                                 alertDialogTitle = "Register Error"
@@ -445,7 +481,9 @@ class RegisterClass {
                 Text(
                     text = buttonText,
                     color = Color(0xFFFFFFFF),
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontSize = 6.em
+                    )
                 )
             }.let { animation ->
                 LaunchedEffect(animation) {
@@ -465,7 +503,9 @@ class RegisterClass {
         Text(
             text = subtitle,
             color = greyTextColor,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge.copy(
+                fontSize = 4.em
+            )
         ).let { animation ->
             LaunchedEffect(animation) {
                 delay(delay.toLong())
@@ -511,7 +551,9 @@ class RegisterClass {
                 Text(
                     text = buttonText,
                     color = primaryColor,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontSize = 6.em
+                    )
                 )
             }.let { animation ->
                 LaunchedEffect(animation) {

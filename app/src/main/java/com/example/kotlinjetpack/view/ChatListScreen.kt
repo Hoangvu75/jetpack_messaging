@@ -1,5 +1,6 @@
 package com.example.kotlinjetpack.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.icu.text.SimpleDateFormat
@@ -43,6 +44,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -68,6 +70,7 @@ import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.*
 
+@SuppressLint("SimpleDateFormat")
 @RequiresApi(Build.VERSION_CODES.N)
 @Composable
 fun ChatListScreen(
@@ -148,7 +151,7 @@ fun ChatListScreen(
         state = toolbarState,
         scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
         toolbar = {
-            val textSize = (20 + (30 - 15) * toolbarState.toolbarState.progress).sp
+            val textSize = (5 + (6 - 3) * toolbarState.toolbarState.progress)
 
             Row(
                 modifier = Modifier
@@ -190,7 +193,7 @@ fun ChatListScreen(
                     .road(Alignment.TopCenter, Alignment.BottomStart)
                     .padding(20.dp),
                 color = Color.White,
-                fontSize = textSize,
+                fontSize = textSize.em,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold
                 )
@@ -220,7 +223,7 @@ fun ChatListScreen(
                 style = TextStyle(
                     textAlign = TextAlign.Start,
                     color = defaultTextColor(),
-                    fontSize = 28.sp
+                    fontSize = 7.em
                 ),
             )
 
@@ -352,7 +355,7 @@ fun ChatItem(
                 Text(
                     text = friendName[0].toString().uppercase(),
                     style = TextStyle(
-                        fontSize = 28.sp,
+                        fontSize = 7.em,
                         fontWeight = FontWeight.Bold
                     ),
                     textAlign = TextAlign.Center
@@ -370,6 +373,7 @@ fun ChatItem(
                         style = MaterialTheme.typography.titleMedium.copy(
                             textAlign = TextAlign.Start,
                             color = defaultTextColor(),
+                            fontSize = 4.em
                         ),
                     )
 
@@ -380,6 +384,7 @@ fun ChatItem(
                         style = MaterialTheme.typography.bodyLarge.copy(
                             textAlign = TextAlign.Start,
                             color = greyTextColor,
+                            fontSize = 4.em
                         ),
                     )
                 }
@@ -400,6 +405,7 @@ fun ChatItem(
                         style = MaterialTheme.typography.bodyLarge.copy(
                             textAlign = TextAlign.Start,
                             color = greyTextColor,
+                            fontSize = 4.em
                         ),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
@@ -452,7 +458,7 @@ fun DateTimeText() {
             Text(
                 text = formattedDate,
                 color = Color.White,
-                fontSize = 18.sp,
+                fontSize = 4.em,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold
                 ),
@@ -485,7 +491,7 @@ fun DateTimeText() {
                     )
                 ),
                 color = Color.White,
-                fontSize = 16.sp,
+                fontSize = 4.em,
                 style = TextStyle(
                     fontStyle = FontStyle.Italic
                 )

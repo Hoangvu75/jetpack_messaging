@@ -14,20 +14,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.window.Dialog
 import com.example.kotlinjetpack.model.ContactItem
+import com.example.kotlinjetpack.ui.theme.greyTextColor
 import com.example.kotlinjetpack.ui.theme.primaryColor
 import com.example.kotlinjetpack.view_model.AddContactViewModel
 
-// đây là dialog sẽ hiện lên khi người dùng sử dụng tính năng thêm liện hệ mới, 1 dialog sẽ hiện
-// ra và cho người dùng nhập số điện thoại, số điện thoại được nhập nếu có tồn tại trong database
-// sẽ được thêm vao danh sách liên hệ.
-
-// đây là hàm để mở dialog, khi openDialog = true thì dialog sẽ xuất hiện
 @Composable
 fun AddContactDialog(
     openDialog: MutableState<Boolean>,
@@ -40,8 +38,6 @@ fun AddContactDialog(
         )
     }
 }
-
-// đây là UI (giao diện) của dialog
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddContactDialogUI(
@@ -68,14 +64,26 @@ fun AddContactDialogUI(
                     modifier = Modifier
                         .padding(top = 5.dp)
                         .fillMaxWidth(),
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontSize = 6.em
+                    ),
+                )
+                Spacer(
+                    modifier = Modifier.height(5.dp)
                 )
                 OutlinedTextField(
                     value = phone,
                     onValueChange = { phone = it },
                     label = {
-                        Text(text = "Phone")
+                        Text(
+                            text = "Phone",
+                            fontSize = 4.em,
+                            color = greyTextColor
+                        )
                     },
+                    textStyle = TextStyle(
+                        fontSize = 4.em
+                    ),
                     leadingIcon = {
                         Icon(Icons.Filled.Phone, contentDescription = null)
                     },
@@ -100,11 +108,6 @@ fun AddContactDialogUI(
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 TextButton(
-
-                    // khi người dùng nhập xong số điện thoại và bấm xác nhận, dialog sẽ đóng lại
-                    // . sau đó sẽ gọi ViewModel thực hiện việc thêm số điện thoại vào danh sách
-                    // liên hệ.
-
                     onClick = {
                         openDialog.value = false
                         val addContactViewModel = AddContactViewModel()
@@ -133,7 +136,9 @@ fun AddContactDialogUI(
                         fontWeight = FontWeight.ExtraBold,
                         color = Color.White,
                         modifier = Modifier.padding(top = 5.dp, bottom = 5.dp),
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontSize = 4.em
+                        )
                     )
                 }
 
@@ -147,7 +152,9 @@ fun AddContactDialogUI(
                         fontWeight = FontWeight.ExtraBold,
                         color = Color.White,
                         modifier = Modifier.padding(top = 5.dp, bottom = 5.dp),
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontSize = 4.em
+                        )
                     )
                 }
             }

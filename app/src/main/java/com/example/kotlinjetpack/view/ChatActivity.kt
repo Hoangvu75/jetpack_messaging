@@ -2,6 +2,7 @@ package com.example.kotlinjetpack.view
 
 import AddChatRequestBody
 import android.os.Bundle
+import android.view.ViewTreeObserver
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -9,6 +10,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -28,15 +30,19 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.em
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.kotlinjetpack.const.BASE_URL
 import com.example.kotlinjetpack.const.PHONE
 import com.example.kotlinjetpack.function.AppSettings
@@ -124,6 +130,7 @@ fun ChatScreen(chatId: String, socket: Socket, chatList: MutableList<Chat>) {
                 0 -> {
                     println("Loading")
                 }
+
                 1 -> {
                     println("Success, chat: ${getChatViewModel.getChatData!!.chat}")
                     chatList.clear()
@@ -140,6 +147,7 @@ fun ChatScreen(chatId: String, socket: Socket, chatList: MutableList<Chat>) {
                     user1 = getChatViewModel.getChatData!!.chat!!.users!![0]
                     user2 = getChatViewModel.getChatData!!.chat!!.users!![1]
                 }
+
                 2 -> {
                     println("Error: ${getChatViewModel.errorMessage}")
                 }
@@ -181,7 +189,14 @@ fun ChatScreen(chatId: String, socket: Socket, chatList: MutableList<Chat>) {
         animationSpec = tween(durationMillis = 500, easing = LinearOutSlowInEasing)
     )
 
-    Scaffold { padding ->
+    Scaffold(
+        modifier = Modifier
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = {
+                    focusManager.clearFocus()
+                })
+            },
+    ) { padding ->
         Column(
             modifier = Modifier
                 .padding(padding)
@@ -196,28 +211,10 @@ fun ChatScreen(chatId: String, socket: Socket, chatList: MutableList<Chat>) {
                     ),
                 )
         ) {
-            Box(
+            Column(
                 modifier = Modifier
                     .weight(1f)
             ) {
-                val listState = rememberScrollState()
-
-                Column(
-                    modifier = Modifier
-                        .verticalScroll(listState)
-                ) {
-                    for (i in 0 until chatList.size) {
-                        ChatElement(
-                            sender = chatList[i].sender!!,
-                            content = chatList[i].content!!,
-                        )
-                    }
-
-                    LaunchedEffect(chatList.size) {
-                        listState.scrollTo(Int.MAX_VALUE)
-                    }
-                }
-
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start,
@@ -266,7 +263,7 @@ fun ChatScreen(chatId: String, socket: Socket, chatList: MutableList<Chat>) {
                         Text(
                             text = if (name.isEmpty()) "" else name[0].uppercase(),
                             style = TextStyle(
-                                fontSize = 28.sp,
+                                fontSize = 7.em,
                                 fontWeight = FontWeight.Bold
                             ),
                             textAlign = TextAlign.Center
@@ -282,6 +279,7 @@ fun ChatScreen(chatId: String, socket: Socket, chatList: MutableList<Chat>) {
                             style = MaterialTheme.typography.titleLarge.copy(
                                 textAlign = TextAlign.Start,
                                 color = Color.White,
+                                fontSize = 5.em
                             ),
                         )
                         Text(
@@ -291,10 +289,29 @@ fun ChatScreen(chatId: String, socket: Socket, chatList: MutableList<Chat>) {
                                 textAlign = TextAlign.Start,
                                 color = Color.White.copy(alpha = 0.7f),
                                 fontStyle = FontStyle(1),
+                                fontSize = 4.em
                             ),
                         )
                     }
 
+                }
+
+                val listState = rememberScrollState()
+
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(listState)
+                ) {
+                    for (i in 0 until chatList.size) {
+                        ChatElement(
+                            sender = chatList[i].sender!!,
+                            content = chatList[i].content!!,
+                        )
+                    }
+
+                    LaunchedEffect(chatList.size) {
+                        listState.scrollTo(Int.MAX_VALUE)
+                    }
                 }
             }
 
@@ -319,7 +336,8 @@ fun ChatScreen(chatId: String, socket: Socket, chatList: MutableList<Chat>) {
                     shape = RoundedCornerShape(20.dp),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     textStyle = MaterialTheme.typography.bodyLarge.copy(
-                        color = defaultTextColor()
+                        color = defaultTextColor(),
+                        fontSize = 4.em
                     )
                 )
 
@@ -389,7 +407,10 @@ fun ChatElement(
                 Text(
                     text = content,
                     modifier = Modifier.padding(all = 10.dp),
-                    style = MaterialTheme.typography.bodyLarge.copy(Color.White)
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        Color.White,
+                        fontSize = 4.em
+                    )
                 )
             }
         }.let { animation ->

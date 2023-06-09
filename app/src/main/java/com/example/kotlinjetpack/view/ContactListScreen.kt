@@ -41,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -172,7 +173,7 @@ fun ContactListScreen(
                 }
             }
 
-            val textSize = (20 + (30 - 15) * toolbarState.toolbarState.progress).sp
+            val textSize = (5 + (6 - 3) * toolbarState.toolbarState.progress)
 
             var title by remember { mutableStateOf("") }
             val titleFinal = "Your friends"
@@ -182,7 +183,7 @@ fun ContactListScreen(
                     .road(Alignment.TopCenter, Alignment.BottomEnd)
                     .padding(20.dp),
                 color = Color.White,
-                fontSize = textSize,
+                fontSize = textSize.em,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold
                 )
@@ -239,7 +240,7 @@ fun ContactItem(
             Text(
                 text = name[0].toString().uppercase(),
                 style = TextStyle(
-                    fontSize = 28.sp,
+                    fontSize = 7.em,
                     fontWeight = FontWeight.Bold
                 ),
                 textAlign = TextAlign.Center
@@ -260,6 +261,7 @@ fun ContactItem(
                     style = MaterialTheme.typography.titleMedium.copy(
                         textAlign = TextAlign.Start,
                         color = defaultTextColor(),
+                        fontSize = 4.em
                     ),
                 )
                 Text(
@@ -267,6 +269,7 @@ fun ContactItem(
                     style = MaterialTheme.typography.bodyLarge.copy(
                         textAlign = TextAlign.Start,
                         color = greyTextColor,
+                        fontSize = 4.em
                     ),
                 )
             }
@@ -441,7 +444,7 @@ fun AddFriendButton(
             Text(
                 text = "Add friends",
                 color = Color.White,
-                fontSize = 20.sp,
+                fontSize = 5.em,
                 style = TextStyle(
                     fontStyle = FontStyle.Italic
                 )

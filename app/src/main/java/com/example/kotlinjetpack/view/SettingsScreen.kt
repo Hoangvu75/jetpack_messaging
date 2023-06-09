@@ -40,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.example.kotlinjetpack.R
 import com.example.kotlinjetpack.const.NAME
@@ -149,7 +150,7 @@ fun SettingsScreen() {
                     text = title,
                     modifier = Modifier.padding(20.dp),
                     color = Color.White,
-                    fontSize = 35.sp,
+                    fontSize = 8.em,
                     style = TextStyle(
                         fontWeight = FontWeight.Bold
                     )
@@ -209,7 +210,7 @@ fun SettingsScreen() {
                     Text(
                         text = NAME[0].toString().uppercase(),
                         style = TextStyle(
-                            fontSize = 28.sp,
+                            fontSize = 7.em,
                             fontWeight = FontWeight.Bold,
                             color = defaultTextColor()
                         ),
@@ -223,7 +224,7 @@ fun SettingsScreen() {
                     Text(
                         text = NAME,
                         style = TextStyle(
-                            fontSize = 24.sp,
+                            fontSize = 6.em,
                             fontWeight = FontWeight.Bold,
                             color = defaultTextColor()
                         ),
@@ -233,7 +234,7 @@ fun SettingsScreen() {
                     Text(
                         text = PHONE,
                         style = TextStyle(
-                            fontSize = 20.sp,
+                            fontSize = 5.em,
                             fontStyle = FontStyle.Italic,
                             color = greyTextColor
                         ),
@@ -269,7 +270,7 @@ fun SettingsScreen() {
                     Text(
                         text = "Change password",
                         style = TextStyle(
-                            fontSize = 20.sp,
+                            fontSize = 5.em,
                             color = defaultTextColor()
                         ),
                         textAlign = TextAlign.Center
@@ -301,7 +302,7 @@ fun SettingsScreen() {
                     Text(
                         text = "Change name",
                         style = TextStyle(
-                            fontSize = 20.sp,
+                            fontSize = 5.em,
                             color = defaultTextColor()
                         ),
                         textAlign = TextAlign.Center
@@ -339,7 +340,7 @@ fun SettingsScreen() {
                     Text(
                         text = "Close",
                         style = TextStyle(
-                            fontSize = 20.sp,
+                            fontSize = 5.em,
                             color = defaultTextColor()
                         ),
                         textAlign = TextAlign.Center
@@ -543,7 +544,7 @@ fun ScreenModeButton() {
             Text(
                 text = if (AppSettings.isDarkMode) "Light" else "Dark",
                 color = Color.White,
-                fontSize = 20.sp,
+                fontSize = 5.em,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold
                 ),
