@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -14,7 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinJetpack"
         android:usesCleartextTraffic="true"
+        android:name=".MainApplication"
         tools:targetApi="31">
+        <activity
+            android:name=".view.video_call_activity.MeetingActivity"
+            android:exported="false" />
         <activity
             android:name=".view.ChatActivity"
             android:exported="false"
@@ -34,16 +41,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.RegisterActivity"
-            android:exported="false"
-            android:label="@string/title_activity_register"
-            android:theme="@style/Theme.KotlinJetpack">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".view.auth.LoginAndRegisterActivity"
+            android:name=".view.LoginAndRegisterActivity"
             android:exported="false"
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.KotlinJetpack">

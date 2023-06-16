@@ -13,4 +13,12 @@ object ApiService {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+    fun getInstanceVideoSdk(): Retrofit {
+        return Retrofit
+            .Builder()
+            .baseUrl("https://api.videosdk.live/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 }

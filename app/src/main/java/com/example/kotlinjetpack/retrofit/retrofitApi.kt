@@ -1,6 +1,8 @@
 import com.example.kotlinjetpack.model.*
+import org.json.JSONObject
 import retrofit2.Response
 import retrofit2.http.*
+import java.util.Objects
 
 interface RetrofitApi {
     @POST("/auth/login")
@@ -46,6 +48,11 @@ interface RetrofitApi {
 
     @POST("/chat/create-chat")
     suspend fun createChat(@Body createChatRequestBody: CreateChatRequestBody): Response<Unit>
+
+    @POST("/v2/rooms")
+    suspend fun createVideoCallRoom(
+        @Header("Authorization") authHeader: String,
+    ): Response<VideoCallResponse>
 }
 
 data class AddChatRequestBody(

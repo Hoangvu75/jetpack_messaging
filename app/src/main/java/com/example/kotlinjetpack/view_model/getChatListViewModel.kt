@@ -8,7 +8,6 @@ import com.example.kotlinjetpack.const.ACCESS_TOKEN
 import com.example.kotlinjetpack.model.ChatItem
 import com.example.kotlinjetpack.model.GetChatListResponse
 import com.example.kotlinjetpack.retrofit.ApiService
-import com.example.kotlinjetpack.view.ChatItem
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
